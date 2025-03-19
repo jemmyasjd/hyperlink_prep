@@ -1353,9 +1353,11 @@ class userModel{
             }, null);
         }
     }
+
+    // only from the day_time
     
      getMenu(req, callback) {
-        if (!req.user_id || isNaN(req.user_id)) {
+        if (!req.user_id || isNaN(req.user_id) || !req.body.day_time) {
             return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param });
         }
     
@@ -1395,6 +1397,117 @@ class userModel{
             });
         });
     }
+
+    // from the month and day_time and week the user will pass : 
+
+    // getMenu(req, callback) {
+    //     if (!req.user_id || isNaN(req.user_id)) { 
+    //         return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param });
+    //     }
+    //     if (!req.body.day_time || !['Breakfast', 'Lunch', 'Dinner'].includes(req.body.day_time)) {
+    //         return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param  });
+    //     }
+    //     if (!req.body.month || isNaN(req.body.month) || req.body.month < 1 || req.body.month > 12) {
+    //         return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param  });
+    //     }
+    //     if (!req.body.day_no || isNaN(req.body.day_no) || req.body.day_no < 1 || req.body.day_no > 7) {
+    //         return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param });
+    //     }
+    
+    //     req.body.limit = req.body.limit && !isNaN(req.body.limit) ? parseInt(req.body.limit) : constant.limit;
+    //     req.body.offset = req.body.offset && !isNaN(req.body.offset) ? parseInt(req.body.offset) : constant.offset;
+    
+    //     let userQuery = `SELECT * FROM tbl_user u WHERE u.is_active=1 AND u.is_deleted=0 AND u.id=?`;
+    //     let menuQuery = `SELECT * FROM tbl_menu m WHERE m.is_active=1 AND m.is_deleted=0 
+    //                     AND MONTH(m.date) = ? AND m.day_no = ? AND m.day_time = ?
+    //                     LIMIT ? OFFSET ?`;
+    
+    //     connection.query(userQuery, [req.user_id], (err, userRows) => {
+    //         if (err) {
+    //             return callback({ code: code.OPERATION_FAILED, messages: err.sqlMessage }, null);
+    //         }
+    //         if (userRows.length === 0) {
+    //             return callback(null, { code: code.NO_DATA_FOUND, messages: req.language.no_data_found, data: {} });
+    //         }
+    
+    //         connection.query(menuQuery, [req.body.month, req.body.day_no, req.body.day_time, req.body.limit, req.body.offset], (err, menuRows) => {
+    //             if (err) {
+    //                 return callback({ code: code.OPERATION_FAILED, messages: err.sqlMessage }, null);
+    //             }
+                
+    //             connection.query('SELECT * FROM tbl_address a WHERE a.user_id = ? AND a.is_active=1 AND a.is_deleted=0',
+    //                 [req.user_id], (err, add) => {
+    //                     if (err) {
+    //                         return callback({ code: code.OPERATION_FAILED, messages: err.sqlMessage }, null);
+    //                     }
+    //                     return callback(null, {
+    //                         code: code.SUCCESS,
+    //                         messages: req.language.success,
+    //                         data: {
+    //                             user: userRows[0],
+    //                             menu: menuRows,
+    //                             address: add
+    //                         }
+    //                     });
+    //                 });
+    //         });
+    //     });
+    // }
+
+    // from the current date : 
+
+    // getMenu = (req, callback) => {
+    //     if (!req.user_id || isNaN(req.user_id)) {
+    //         return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param });
+    //     }
+    //     if (!req.body.day_time || !['Breakfast', 'Lunch', 'Dinner'].includes(req.body.day_time)) {
+    //         return callback(null, { code: code.REQUEST_ERROR, messages: req.language.missing_param });
+    //     }
+        
+    //     const currentDate = new Date();
+    //     const currentMonth = currentDate.getMonth() + 1; // Months are 0-based in JavaScript
+    //     const dayNumber = currentDate.getDay() || 7; // Convert Sunday (0) to 7
+        
+    //     req.body.limit = req.body.limit && !isNaN(req.body.limit) ? parseInt(req.body.limit) : constant.limit;
+    //     req.body.offset = req.body.offset && !isNaN(req.body.offset) ? parseInt(req.body.offset) : constant.offset;
+    
+    //     let userQuery = `SELECT * FROM tbl_user u WHERE u.is_active=1 AND u.is_deleted=0 AND u.id=?`;
+    //     let menuQuery = `SELECT * FROM tbl_menu m WHERE m.is_active=1 AND m.is_deleted=0 
+    //                     AND MONTH(m.date) = ? AND m.day_no = ? AND m.day_time = ?
+    //                     LIMIT ? OFFSET ?`;
+    
+    //     connection.query(userQuery, [req.user_id], (err, userRows) => {
+    //         if (err) {
+    //             return callback({ code: code.OPERATION_FAILED, messages: err.sqlMessage }, null);
+    //         }
+    //         if (userRows.length === 0) {
+    //             return callback(null, { code: code.NO_DATA_FOUND, messages: req.language.no_data_found, data: {} });
+    //         }
+    
+    //         connection.query(menuQuery, [currentMonth, dayNumber, req.body.day_time, req.body.limit, req.body.offset], (err, menuRows) => {
+    //             if (err) {
+    //                 return callback({ code: code.OPERATION_FAILED, messages: err.sqlMessage }, null);
+    //             }
+                
+    //             connection.query('SELECT * FROM tbl_address a WHERE a.user_id = ? AND a.is_active=1 AND a.is_deleted=0',
+    //                 [req.user_id], (err, add) => {
+    //                     if (err) {
+    //                         return callback({ code: code.OPERATION_FAILED, messages: err.sqlMessage }, null);
+    //                     }
+    //                     return callback(null, {
+    //                         code: code.SUCCESS,
+    //                         messages: req.language.success,
+    //                         data: {
+    //                             user: userRows[0],
+    //                             menu: menuRows,
+    //                             address: add
+    //                         }
+    //                     });
+    //                 });
+    //         });
+    //     });
+    // };
+    
     
 
     // async getOrders(req, callback) {

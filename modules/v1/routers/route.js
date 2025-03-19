@@ -42,9 +42,6 @@ var customRoute= (app) => {
 
 
 
-
-
-
 }
 
 module.exports = customRoute;

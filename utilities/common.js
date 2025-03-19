@@ -4,6 +4,7 @@ const code = require('./request-error-code')
 const message =require('../languages/en')
 const constant = require('../config/constant');
 const cryptLib = require('cryptlib');
+const lodash = require('lodash')
 
 class Utility {
     generateOtp(){
@@ -66,7 +67,7 @@ class Utility {
 
     decodeBody(req,res,next) {
         if(!lodash.isEmpty(req.body) && typeof req.body != "undefined"){
-            req.body = JSON.parse(common.decryptPlain(req.body).replace((/\0/g, '').replace(/[^\x00-\xFF]/g, "")
+            req.body = JSON.parse(this.decryptPlain(req.body).replace((/\0/g, '').replace(/[^\x00-\xFF]/g, "")
         ))
         } else{
             req.body = "";

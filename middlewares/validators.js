@@ -8,7 +8,7 @@ const common = require('../utilities/common');
 
 var middleware = {
 
-    bypassMethods: ["login", "signup","verify","resend"],
+    bypassMethods: ["login", "signup","verify","resend","about"],
 
     checkValidationRules: function (req, res, request, rules, message, keywords) {
         const v = Validator.make(request, rules, message, keywords);
@@ -116,8 +116,6 @@ var middleware = {
     },
     
     
-
-  
 
     validateHeaderToken: function (req, res, callback) {
 

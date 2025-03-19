@@ -365,7 +365,7 @@ class User {
             }
         }); 
     }
-    
+
     /**
      * @param {req} Object Incoming request object
      * @param {res} Object Response object
@@ -675,6 +675,7 @@ class User {
 
     getMenu(req, res) {
         var request = req.body;
+        // console.log("req", request)
         // request = common.decryptPlain(request);
         // request = JSON.parse(request);
         // req.body = request;
